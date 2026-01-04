@@ -145,9 +145,10 @@ function LoginScreen() {
             <div className="mt-10 text-center">
               <p className="text-sm text-slate-500">
                 New to the platform?{" "}
-                <Link to={"/signup"} className="font-bold text-blue-600 hover:underline">
-                  Create an account
-                </Link>
+                  <Link to={"signup"}  className="font-bold text-blue-600 hover:underline">
+              Get Started!
+            </Link>
+              
               </p>
               <div className="mt-8 flex items-center justify-center space-x-4 text-xs text-slate-400">
                 <a href="#" className="hover:text-slate-600">Privacy Policy</a>
