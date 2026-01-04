@@ -72,10 +72,12 @@ function DashBoardLayout() {
             </aside>
 
             {/* Mobile Sidebar */}
-            <SideNavbar 
-              isMobileOpen={isMobileSidebarOpen} 
-              setIsMobileOpen={setIsMobileSidebarOpen} 
-            />
+            <div className="md:hidden">
+              <SideNavbar 
+                isMobileOpen={isMobileSidebarOpen} 
+                setIsMobileOpen={setIsMobileSidebarOpen} 
+              />
+            </div>
 
             {/* Main Content Area */}
             <main className="flex-1 overflow-y-auto p-6 lg:p-8 bg-slate-50/50">
