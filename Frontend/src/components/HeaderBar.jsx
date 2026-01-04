@@ -1,71 +1,112 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { IoNotificationsOutline, IoSettingsOutline, IoLogOutOutline, IoMenu, IoClose } from "react-icons/io5";
 import adminLogo from "../assets/admin-logo.svg";
 import userLogo from "../assets/user-logo.svg";
-import axios from "axios";
 
 function HeaderBar({ user }) {
   const [showMenu, setShowMenu] = useState(false);
-  const navigator = useNavigate();
-
-  const handleMenuClick = () => {
-    setShowMenu(!showMenu);
-  };
-
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
+      {/* Premium Glass Loading Overlay */}
       {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="w-16 h-16 border-4 border-t-gray-400 border-b-gray-400 border-r-transparent rounded-full animate-spin"></div>
-          <h2 className="text-white ml-2">Loading please wait...</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-white/40 backdrop-blur-md z-[100]">
+          <div className="flex flex-col items-center">
+            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 font-bold text-slate-800 animate-pulse">Synchronizing...</p>
+          </div>
         </div>
       )}
-      {!isLoading && (
-        <header className="bg-gray-800">
-          <div className="px-6 py-3 bg-white shadow-md grid grid-cols-10 fixed top-0 right-0 left-0 z-10 items-center">
-            <h1 className="text-xl font-semibold col-span-2">
-              Inventory Management
+
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3">
+        {/* Main Header Container */}
+        <div className="max-w-7xl mx-auto bg-white/80 backdrop-blur-xl border border-white/20 shadow-lg shadow-slate-200/50 rounded-2xl px-4 py-2 flex items-center justify-between">
+          
+          {/* Brand/Logo Section */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+              <span className="text-white font-black text-xl italic tracking-tighter">I</span>
+            </div>
+            <h1 className="hidden sm:block text-lg font-black text-slate-900 tracking-tight">
+              INV<span className="text-blue-600">ENTORY</span>
             </h1>
-            <div className="col-span-6"></div>
-            <div className="col-span-2 flex items-center justify-end">
-              <div className="flex items-center">
+          </div>
+
+          {/* Right Actions Section */}
+          <div className="flex items-center gap-2 sm:gap-6">
+            
+            {/* Notification & Tools (Hidden on small mobile) */}
+            <div className="hidden md:flex items-center gap-4 text-slate-400">
+              <button className="hover:text-blue-600 transition-colors"><IoNotificationsOutline size={22}/></button>
+              <button className="hover:text-blue-600 transition-colors"><IoSettingsOutline size={22}/></button>
+            </div>
+
+            {/* Profile Section */}
+            <div className="flex items-center gap-3 pl-4 border-l border-slate-100">
+              <div className="text-right hidden lg:block">
+                <h3 className="text-sm font-bold text-slate-900 leading-none">{user.name}</h3>
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${user.role === 'admin' ? 'text-blue-600' : 'text-emerald-600'}`}>
+                   {user.role}
+                </span>
+              </div>
+              
+              <div className="relative group cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
                 <img
                   src={user.role === "user" ? userLogo : adminLogo}
-                  alt="User Logo"
-                  className="h-10 w-10 rounded-full border-4 border-green-600 bg-green-300 p-1"
+                  alt="Avatar"
+                  className={`h-10 w-10 rounded-xl object-cover ring-2 ring-offset-2 transition-all group-hover:ring-blue-500 ${
+                    user.role === "user" ? "ring-emerald-100" : "ring-blue-100"
+                  }`}
                 />
-                <div className="ml-3">
-                  <h3 className="text-lg text-neutral-900 font-semibold">
-                    {user.name}
-                  </h3>
-                  <span className="text-sm text-neutral-500">{user.email}</span>
-                </div>
+                {/* Online Status Dot */}
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
               </div>
-              <button
-                className="ml-4 text-neutral-100 hover:text-white"
-                onClick={handleMenuClick}
+
+              {/* Mobile/Burger Menu Button */}
+              <button 
+                onClick={() => setShowMenu(!showMenu)}
+                className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                </svg>
+                {showMenu ? <IoClose size={24}/> : <IoMenu size={24}/>}
               </button>
             </div>
           </div>
-        </header>
-      )}
+        </div>
+
+        {/* Floating Dropdown Menu */}
+        {showMenu && (
+          <div className="absolute top-20 right-8 w-64 bg-white border border-slate-100 rounded-2xl shadow-2xl shadow-slate-300/50 p-4 animate-in fade-in slide-in-from-top-4 duration-200">
+            <div className="lg:hidden pb-4 mb-4 border-b border-slate-50">
+                <p className="text-sm font-bold text-slate-900">{user.name}</p>
+                <p className="text-xs text-slate-400 truncate">{user.email}</p>
+            </div>
+            
+            <ul className="space-y-1">
+              <li>
+                <button className="w-full flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all">
+                  <IoSettingsOutline />
+                  <span className="text-sm font-medium">Account Settings</span>
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => { /* Logout Logic */ }}
+                  className="w-full flex items-center gap-3 px-3 py-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                >
+                  <IoLogOutOutline />
+                  <span className="text-sm font-bold">Sign Out</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
+      </header>
+      
+      {/* Spacer to push content below fixed header */}
+      <div className="h-24"></div>
     </>
   );
 }
