@@ -30,7 +30,7 @@ function SignupScreen() {
 
       if (status === 201) {
         // alert("Account Created");
-        navigator("/auth", { replace: true });
+        navigator("/", { replace: true });
       } else {
         alert("Something went wrong");
       }

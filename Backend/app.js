@@ -9,6 +9,8 @@ import companyRouter from "./routes/companyRoutes.js";
 import locationRouter from "./routes/locationRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 
+import historyRouter from "./routes/historyRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -17,7 +19,7 @@ app.use(
       // methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     // credentials: true,
     // preflightContinue: false,
-    origin: true,
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
@@ -25,7 +27,7 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 connectdb();
 
 app.use("/api/v1/users", userRouter);
@@ -34,7 +36,7 @@ app.use("/api/v1/brands", companyRouter);
 app.use("/api/v1/location", locationRouter);
 app.use("/api/v1/analytics", analyticsRoutes);
 
-app.use(express.urlencoded({ extended: true }));
+app.use("/api/v1/history", historyRouter);
 
 // console.log(process.env.FRONTEND_URL);
 

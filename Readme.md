@@ -194,7 +194,7 @@ MONGODB_URI=your_mongodb_connection_string
 PORT=3000
 SECRET_KEY=your_secret_key
 NODE_ENV=development
-ORIGIN=http://localhost:3000
+ORIGIN=http://localhost:5173
 ```
 
 ### Frontend `.env`:
