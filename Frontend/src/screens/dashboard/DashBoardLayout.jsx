@@ -11,6 +11,7 @@ function DashBoardLayout() {
   const [data, setData] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchUserInfo();
@@ -64,8 +65,17 @@ function DashBoardLayout() {
           <div className="flex flex-1 overflow-hidden">
             {/* Side Navigation */}
             <aside className="w-64 border-r border-slate-200 bg-white hidden md:block overflow-y-auto">
-              <SideNavbar />
+              <SideNavbar 
+                isMobileOpen={isMobileSidebarOpen} 
+                setIsMobileOpen={setIsMobileSidebarOpen} 
+              />
             </aside>
+
+            {/* Mobile Sidebar */}
+            <SideNavbar 
+              isMobileOpen={isMobileSidebarOpen} 
+              setIsMobileOpen={setIsMobileSidebarOpen} 
+            />
 
             {/* Main Content Area */}
             <main className="flex-1 overflow-y-auto p-6 lg:p-8 bg-slate-50/50">

@@ -65,13 +65,13 @@ function HeaderBar({ user }) {
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
               </div>
 
-              {/* Mobile/Burger Menu Button */}
-              <button 
+              {/* Mobile/Burger Menu Button - Hide since sidebar has its own */}
+              {/* <button 
                 onClick={() => setShowMenu(!showMenu)}
                 className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors"
               >
                 {showMenu ? <IoClose size={24}/> : <IoMenu size={24}/>}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
